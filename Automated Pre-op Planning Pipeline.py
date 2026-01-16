@@ -104,7 +104,6 @@ def load_and_stats(path):
     print(f"Median edge:   {med_edge:.3f} (mesh units)")
     return m, {"diag": diag, "med_edge": med_edge, "nV": len(V), "nF": len(T)}
 
-# --- use it ---
 
 
 def build_face_adjacency(triangles: np.ndarray):
@@ -129,7 +128,6 @@ for every triangle f, we want a list of neighbor faces that share an edge with f
             nbrs[f1].append(f0)
     return nbrs
 
-# ---- run + quick sanity
 
 def cluster_by_normal(triangles, tri_normals, adj, angle_threshold_degree=3.0):
     """
@@ -159,7 +157,7 @@ def cluster_by_normal(triangles, tri_normals, adj, angle_threshold_degree=3.0):
                         q.append(g) #adds it to the queue so that its neighbours can be seem
                         cluster.append(g) #records g as part of the current cluster
 
-        clusters.append(cluster)   # <-- append AFTER BFS finishes this component
+        clusters.append(cluster)   
     return clusters
 
 
@@ -242,8 +240,7 @@ def select_planar_clusters(mesh, clusters, *, med_edge, max_dev_factor=0.5, area
     return np.array(sorted(set(selected_faces)), dtype=int)
 
 
-# ---------- color the mesh ----------
-# Open3D colors are per-vertex; we'll color vertices belonging to selected faces red.
+##COLOUR MESH##
 
 def process_color_mesh(mesh_path, aligned_dir, case_number, label, *, angle_threshold_degree=6.0, max_dev_factor=0.2, area_min_factor=50.0, rms_factor=0.20, bone_col=(0.89, 0.855, 0.79), red_col=(1.0, 0.0, 0.0)):
     
@@ -303,14 +300,13 @@ if mesh_repair.lower() == "yes":
     if mesh.is_empty():
         raise RuntimeError("Failed to read mesh")
 
-    # light, safe cleanup
     mesh.remove_degenerate_triangles()
     mesh.remove_duplicated_triangles()
     mesh.remove_duplicated_vertices()
     mesh.remove_non_manifold_edges()
     mesh.compute_vertex_normals()
 
-    m_s = mesh.filter_smooth_laplacian(   # classic Laplacian, but safer after welding
+    m_s = mesh.filter_smooth_laplacian(   
         number_of_iterations=10, lambda_filter=0.09, filter_scope=o3d.geometry.FilterScope.All
     )
     m_s.compute_vertex_normals()
@@ -502,10 +498,8 @@ def set_view_add_mesh(ren, overlay, view_name, type):
     
     
     
-    IF YOU WANT TO EDIT THE COLOURS, CHANGE THE VALUES BELOW. 
-    
-    
-    
+    ##IF YOU WANT TO EDIT THE COLOURS, CHANGE THE VALUES BELOW. 
+
     
     if type == "top_femur_cut":
         add_mesh(ren, femur_mesh_cut, color = (0.96,0.94,0.8), opacity=1.0, transparent_bg=False)
