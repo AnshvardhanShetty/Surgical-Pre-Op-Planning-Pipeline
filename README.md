@@ -63,7 +63,7 @@ The goal of this project was to:
 
 ## Results
 - Reduced surgical case preparation time from **~30 minutes to ~5 minutes per case**  
-- Deployed in a production workflow and used across **1,000+ cases**  
+- Deployed into the production workflow
 - Improved consistency and reduced operator-dependent variability  
 - Enabled scaling of surgical planning without proportional increases in manual labour  
 
